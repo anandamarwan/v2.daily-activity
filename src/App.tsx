@@ -1,7 +1,7 @@
 import { Activity, dataActivities } from "./data/activities";
 import { ActivityItem } from "./components/activity-item";
 
-const MainApp = () => {
+export const MainApp = () => {
   return (
     <div>
       <main className="m-10 flex justify-center">
@@ -23,5 +23,3 @@ const MainApp = () => {
     </div>
   );
 };
-
-export { MainApp };
