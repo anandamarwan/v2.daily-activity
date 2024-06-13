@@ -1,7 +1,24 @@
 import { Activity, dataActivities } from "./data/activities";
 import { ActivityItem } from "./components/activity-item";
+import React, { useState } from "react";
 
 export const MainApp = () => {
+  const [activities] = useState(dataActivities);
+
+  const handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const activityFormData = new FormData(event.currentTarget);
+
+    const newActivity = {
+      id: 100,
+      title: String(activityFormData.get("title")),
+      category: String(activityFormData.get("category")),
+    };
+
+    console.log({ newActivity });
+  };
+
   return (
     <div>
       <main className="m-10 flex justify-center">
@@ -10,7 +27,7 @@ export const MainApp = () => {
           <hr />
 
           <div className="flex flex-col">
-            <form className="gap-2">
+            <form method="post" onSubmit={handleSubmit}>
               <label
                 className="text-xl block mb-2  font-medium text-gray-900 dark:text-white"
                 htmlFor="title"
