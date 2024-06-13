@@ -2,6 +2,7 @@ export type Activity = {
   id: number;
   title: string;
   category: string;
+  createdAt?: Date;
 };
 
 export const dataActivities: Activity[] = [

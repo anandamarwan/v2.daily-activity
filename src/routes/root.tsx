@@ -1,9 +1,9 @@
 import { useState } from "react";
 
-import { Activity, dataActivities } from "./data/activities";
-import { ActivityItem } from "./components/activity-item";
+import { Activity, dataActivities } from "../data/activities";
+import { ActivityItem } from "../components/activity-item";
 
-export const MainApp = () => {
+export function RootRoute() {
   const [activities, setActivities] = useState(dataActivities);
 
   const handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
@@ -87,4 +87,4 @@ export const MainApp = () => {
       </main>
     </div>
   );
-};
+}
