@@ -1,4 +1,4 @@
-import { Activity, dataActivities } from "../data/activities";
+import { dataActivities } from "../data/activities";
 import { ActivityItem } from "../components/activity-item";
 
 export function ActivitiesRoute() {
