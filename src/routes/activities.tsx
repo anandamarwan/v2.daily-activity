@@ -4,6 +4,7 @@ import { createActivity, getActivities } from "../storage/activities";
 import {
   ActionFunctionArgs,
   Form,
+  Link,
   redirect,
   useLoaderData,
 } from "react-router-dom";
@@ -79,7 +80,12 @@ export function ActivitiesRoute() {
               <ul>
                 {activities.map((activity) => (
                   <li key={activity.id}>
-                    <ActivityItem activity={activity} />
+                    <Link
+                      to={`/activities/${activity.id}`}
+                      className="block hover:bg-stone-950"
+                    >
+                      <ActivityItem activity={activity} />
+                    </Link>
                   </li>
                 ))}
               </ul>
