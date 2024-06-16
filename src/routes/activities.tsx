@@ -1,7 +1,16 @@
-import { dataActivities } from "../data/activities";
 import { ActivityItem } from "../components/activity-item";
 
+import { getActivities } from "../storage/activities";
+import { useLoaderData } from "react-router-dom";
+
+export async function loader() {
+  const activities = await getActivities();
+  return { activities };
+}
+
 export function ActivitiesRoute() {
+  const { activities } = useLoaderData() as Awaited<ReturnType<typeof loader>>;
+
   return (
     <div>
       <main className="m-10 flex justify-center">
@@ -53,13 +62,17 @@ export function ActivitiesRoute() {
           </div>
 
           <div>
-            <ul>
-              {dataActivities.map((activity) => (
-                <li key={activity.id}>
-                  <ActivityItem activity={activity} />
-                </li>
-              ))}
-            </ul>
+            {!activities ||
+              (activities.length <= 0 && <p>No activities found.</p>)}
+            {activities.length > 0 && (
+              <ul>
+                {activities.map((activity) => (
+                  <li key={activity.id}>
+                    <ActivityItem activity={activity} />
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         </div>
       </main>
