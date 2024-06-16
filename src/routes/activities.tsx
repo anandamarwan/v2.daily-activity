@@ -1,11 +1,22 @@
 import { ActivityItem } from "../components/activity-item";
 
-import { getActivities } from "../storage/activities";
-import { useLoaderData } from "react-router-dom";
+import { createActivity, getActivities } from "../storage/activities";
+import {
+  ActionFunctionArgs,
+  Form,
+  redirect,
+  useLoaderData,
+} from "react-router-dom";
 
 export async function loader() {
   const activities = await getActivities();
   return { activities };
+}
+
+export async function action({ request }: ActionFunctionArgs) {
+  const formData = await request.formData();
+  const activity = await createActivity(formData);
+  return redirect(`/activities/${activity.id}`);
 }
 
 export function ActivitiesRoute() {
@@ -19,7 +30,7 @@ export function ActivitiesRoute() {
           <hr />
 
           <div className="flex flex-col">
-            <form method="post">
+            <Form method="post">
               <label
                 className="text-xl block mb-2  font-medium text-gray-900 dark:text-white"
                 htmlFor="title"
@@ -58,7 +69,7 @@ export function ActivitiesRoute() {
               >
                 Add Activity
               </button>
-            </form>
+            </Form>
           </div>
 
           <div>

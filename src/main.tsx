@@ -6,7 +6,11 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { RootRoute } from "./routes/root";
 import { ErrorPage } from "./routes/error-page";
 import { ActivityRoutes } from "./routes/activity";
-import { ActivitiesRoute, loader as activityLoader } from "./routes/activities";
+import {
+  ActivitiesRoute,
+  loader as activityLoader,
+  action as activityAction,
+} from "./routes/activities";
 
 import { AboutRoute } from "./routes/about";
 import "./index.css";
@@ -21,6 +25,7 @@ const router = createBrowserRouter([
         path: "/",
         element: <ActivitiesRoute />,
         loader: activityLoader,
+        action: activityAction,
       },
       {
         path: "/about",
