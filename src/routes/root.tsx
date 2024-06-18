@@ -2,7 +2,7 @@ import { Link, Outlet } from "react-router-dom";
 
 export function RootRoute() {
   return (
-    <div className="flex justify-cente r m-10 ">
+    <div className="flex justify-center m-10 ">
       <div className="flex flex-col gap-4 w-full max-w-3xl">
         <header className=" flex justify-between">
           <h1 className="text-3xl">

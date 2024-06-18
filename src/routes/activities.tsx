@@ -27,9 +27,6 @@ export function ActivitiesRoute() {
     <div>
       <main className="m-10 flex justify-center">
         <div className="w-full max-w-3xl space-y-4">
-          <h1 className="text-3xl">Today</h1>
-          <hr />
-
           <div className="flex flex-col">
             <Form method="post">
               <label
