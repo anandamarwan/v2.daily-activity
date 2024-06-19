@@ -1,4 +1,4 @@
-import { Activity } from "../data/activities";
+import { Activity } from "@/data/activities";
 
 export function ActivityItem({ activity }: { activity: Activity }) {
   return (

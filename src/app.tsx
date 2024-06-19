@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import { dataActivities } from "./data/activities";
-import { ActivityItem } from "./components/activity-item";
+import { ActivityItem } from "./components/activity/activity-item";
 
 export const MainApp = () => {
   const [activities, setActivities] = useState(dataActivities);

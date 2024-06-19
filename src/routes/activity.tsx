@@ -1,5 +1,6 @@
 import { type LoaderFunctionArgs, useLoaderData } from "react-router-dom";
 import { getActivity } from "../storage/activities";
+import { Button } from "../components/ui/button";
 
 export async function loader({ params }: LoaderFunctionArgs) {
   const id = Number(params.activityId);
@@ -25,6 +26,10 @@ export function ActivityRoute() {
       <h2>
         Category: <span className="font-bold">{activity.category}</span>
       </h2>
+
+      <div>
+        <Button>Delete</Button>
+      </div>
     </div>
   );
 }
