@@ -1,12 +1,23 @@
-import { type LoaderFunctionArgs, useLoaderData } from "react-router-dom";
-import { getActivity } from "../storage/activities";
+import {
+  type LoaderFunctionArgs,
+  useLoaderData,
+  Form,
+  ActionFunctionArgs,
+  redirect,
+} from "react-router-dom";
+import { deleteActivity, getActivity } from "../storage/activities";
 import { Button } from "../components/ui/button";
 
 export async function loader({ params }: LoaderFunctionArgs) {
   const id = Number(params.activityId);
-
   const activity = await getActivity(id);
   return { activity };
+}
+
+export async function action({ params }: ActionFunctionArgs) {
+  const id = Number(params.activityId);
+  await deleteActivity(id);
+  return redirect("/");
 }
 
 export function ActivityRoute() {
@@ -28,7 +39,11 @@ export function ActivityRoute() {
       </h2>
 
       <div>
-        <Button>Delete</Button>
+        <Form method="DELETE">
+          <Button variant="destructive" size="xs">
+            Delete
+          </Button>
+        </Form>
       </div>
     </div>
   );
