@@ -5,14 +5,18 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import { RootRoute } from "./routes/root";
 import { ErrorPage } from "./routes/error-page";
-import { ActivityRoute, loader as activityLoader } from "./routes/activity";
 import {
   ActivitiesRoute,
   loader as activitiesLoader,
   action as activitiesAction,
 } from "./routes/activities";
-
+import {
+  ActivityRoute,
+  loader as activityLoader,
+  action as activityAction,
+} from "./routes/activity";
 import { AboutRoute } from "./routes/about";
+
 import "./index.css";
 
 const router = createBrowserRouter([
@@ -35,6 +39,7 @@ const router = createBrowserRouter([
         path: "/activities/:activityId",
         element: <ActivityRoute />,
         loader: activityLoader,
+        action: activityAction,
       },
     ],
   },

@@ -29,21 +29,23 @@ export function ActivitiesRoute() {
       <main className="m-10 flex justify-center">
         <div className="w-full max-w-3xl space-y-4">
           <div className="flex flex-col">
-            <Form method="post">
-              <label
-                className="text-xl block mb-2  font-medium text-gray-900 dark:text-white"
-                htmlFor="title"
-              >
-                Title:{" "}
-              </label>
-              <input
-                className="p-2 rounded-lg bg-gray-700"
-                type="text"
-                name="title"
-                id="title"
-                placeholder="Breakfast"
-                required
-              />
+            <Form method="post" className="space-y-4">
+              <div className="space-y-1">
+                <label
+                  className="text-xl block font-medium text-gray-900 dark:text-white"
+                  htmlFor="title"
+                >
+                  Title:{" "}
+                </label>
+                <input
+                  className="p-2 rounded-lg bg-gray-700"
+                  type="text"
+                  name="title"
+                  id="title"
+                  placeholder="Breakfast"
+                  required
+                />
+              </div>
 
               <label
                 htmlFor="category"
