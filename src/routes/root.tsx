@@ -6,7 +6,7 @@ export function RootRoute() {
       <div className="flex flex-col gap-4 w-full max-w-3xl">
         <header className=" flex justify-between">
           <h1 className="text-3xl">
-            <Link to="/">Today</Link>
+            <Link to="/">Daily Activity</Link>
           </h1>
 
           <nav>
