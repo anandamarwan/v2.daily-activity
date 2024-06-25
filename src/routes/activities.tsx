@@ -1,18 +1,21 @@
 import { ActivityItem } from "../components/activity/activity-item";
 import { Button } from "../components/ui/button";
-
 import { createActivity, getActivities } from "../storage/activities";
 import {
   ActionFunctionArgs,
   Form,
   Link,
+  LoaderFunctionArgs,
   redirect,
   useLoaderData,
 } from "react-router-dom";
+import { useEffect, useRef } from "react";
 
-export async function loader() {
-  const activities = await getActivities();
-  return { activities };
+export async function loader({ request }: LoaderFunctionArgs) {
+  const url = new URL(request.url);
+  const q = url.searchParams.get("q") ?? undefined;
+  const activities = await getActivities(q);
+  return { activities, q };
 }
 
 export async function action({ request }: ActionFunctionArgs) {
@@ -22,10 +25,34 @@ export async function action({ request }: ActionFunctionArgs) {
 }
 
 export function ActivitiesRoute() {
-  const { activities } = useLoaderData() as Awaited<ReturnType<typeof loader>>;
+  const { activities, q } = useLoaderData() as Awaited<
+    ReturnType<typeof loader>
+  >;
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.value = q ?? "";
+    }
+  }, [q]);
 
   return (
     <div>
+      <Form id="search-form" role="search">
+        <input
+          ref={inputRef}
+          id="q"
+          className="text-black"
+          aria-label="Search activities"
+          placeholder="Search"
+          type="search"
+          name="q"
+          defaultValue={q ?? ""}
+        />
+        <div id="search-spinner" aria-hidden hidden={true} />
+        <div className="sr-only" aria-live="polite"></div>
+      </Form>
+
       <main className="m-10 flex justify-center">
         <div className="w-full max-w-3xl space-y-4">
           <div className="flex flex-col">
@@ -62,16 +89,16 @@ export function ActivitiesRoute() {
                 <option value="food">Food</option>
                 <option value="sport">Sport</option>
                 <option value="study">Study</option>
-                <option value="hobbies">hobbies</option>
+                <option value="hobbies">Hobbies</option>
               </select>
               <Button type="submit">Add Activity</Button>
             </Form>
           </div>
 
           <div>
-            {!activities ||
-              (activities.length <= 0 && <p>No activities found.</p>)}
-            {activities.length > 0 && (
+            {!activities || activities.length === 0 ? (
+              <p>No activities found.</p>
+            ) : (
               <ul>
                 {activities.map((activity) => (
                   <li key={activity.id}>

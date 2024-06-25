@@ -2,13 +2,12 @@ import { Link, Outlet } from "react-router-dom";
 
 export function RootRoute() {
   return (
-    <div className="flex justify-center m-10 ">
+    <div className="flex justify-center m-10">
       <div className="flex flex-col gap-4 w-full max-w-3xl">
-        <header className=" flex justify-between">
+        <header className="flex justify-between">
           <h1 className="text-3xl">
             <Link to="/">Daily Activity</Link>
           </h1>
-
           <nav>
             <ul>
               <li>
@@ -19,7 +18,8 @@ export function RootRoute() {
         </header>
 
         <hr />
-        <main className=" space-y-4">
+
+        <main className="space-y-4">
           <div>
             <div className="flex flex-col">
               <Outlet />
