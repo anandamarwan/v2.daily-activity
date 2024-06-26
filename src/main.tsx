@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import { RootRoute } from "./routes/root";
@@ -16,6 +15,11 @@ import {
   action as activityAction,
 } from "./routes/activity";
 import { AboutRoute } from "./routes/about";
+import {
+  EditActivityRoute,
+  loader as editActivityLoader,
+  action as editActivityAction,
+} from "./routes/edit-activity";
 
 import "./index.css";
 
@@ -40,6 +44,12 @@ const router = createBrowserRouter([
         element: <ActivityRoute />,
         loader: activityLoader,
         action: activityAction,
+      },
+      {
+        path: "/activities/:activityId/edit",
+        element: <EditActivityRoute />,
+        loader: editActivityLoader,
+        action: editActivityAction,
       },
     ],
   },

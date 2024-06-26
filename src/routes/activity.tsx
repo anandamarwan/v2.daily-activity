@@ -4,6 +4,7 @@ import {
   Form,
   ActionFunctionArgs,
   redirect,
+  Link,
 } from "react-router-dom";
 import { deleteActivity, getActivity } from "../storage/activities";
 import { Button } from "../components/ui/button";
@@ -32,18 +33,21 @@ export function ActivityRoute() {
   }
 
   return (
-    <div>
+    <div className="space-y-4">
       <h1 className="text-3xl font-bold"> {activity.title}</h1>
       <h2>
         Category: <span className="font-bold">{activity.category}</span>
       </h2>
 
-      <div>
+      <div className="flex gap-4">
         <Form method="DELETE">
           <Button variant="destructive" size="xs">
             Delete
           </Button>
         </Form>
+        <Button asChild size="xs">
+          <Link to={`/activities/${activity.id}/edit`}>Edit</Link>
+        </Button>
       </div>
     </div>
   );
