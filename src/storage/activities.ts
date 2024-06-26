@@ -7,7 +7,7 @@ import { type Activity } from "../data/activities";
 export async function getActivities(query?: string) {
   await fakeNetwork(`getActivities:${query}`);
 
-  let activities = (await localforage.getItem("activities")) as Activity[];
+  let activities = await get();
 
   if (!activities) activities = [];
 
@@ -39,7 +39,7 @@ export async function createActivity(formData: FormData) {
 export async function getActivity(id: number) {
   await fakeNetwork(`activity:${id}`);
 
-  const activities = (await localforage.getItem("activities")) as Activity[];
+  const activities = await get();
   const activity = activities.find((activity) => activity.id === id);
 
   return activity ?? null;
@@ -48,7 +48,7 @@ export async function getActivity(id: number) {
 export async function updateActivity(id: number, newActivity: Activity) {
   await fakeNetwork(``);
 
-  const activities = (await localforage.getItem("activities")) as Activity[];
+  const activities = await get();
   const activity = activities.find((activity) => activity.id === id);
   if (!activity) throw new Error("No activity found for");
 
@@ -60,16 +60,16 @@ export async function updateActivity(id: number, newActivity: Activity) {
 }
 
 export async function deleteActivity(id: number) {
-  const activities = (await localforage.getItem("activities")) as Activity[];
-  const index = activities.findIndex((activity) => activity.id === id);
+  const activities = await get();
 
-  if (index > -1) {
-    activities.splice(index, 1);
-    await set(activities);
-    return true;
-  }
+  const updatedActivities = activities.filter((activity) => activity.id !== id);
+  await set(updatedActivities);
 
   return false;
+}
+
+async function get() {
+  return (await localforage.getItem("activities")) as Activity[];
 }
 
 function set(activities: Activity[]) {
