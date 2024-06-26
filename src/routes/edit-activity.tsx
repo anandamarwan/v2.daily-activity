@@ -1,5 +1,3 @@
-import { Button } from "@/components/ui/button";
-import { getActivity, updateActivity } from "@/storage/activities";
 import {
   Form,
   redirect,
@@ -7,6 +5,9 @@ import {
   ActionFunctionArgs,
   LoaderFunctionArgs,
 } from "react-router-dom";
+
+import { Button } from "@/components/ui/button";
+import { getActivity, updateActivity } from "@/storage/activities";
 
 export async function loader({ params }: LoaderFunctionArgs) {
   const id = Number(params.activityId);
@@ -16,17 +17,24 @@ export async function loader({ params }: LoaderFunctionArgs) {
 
 // Action untuk memperbarui aktivitas
 export async function action({ request, params }: ActionFunctionArgs) {
-  const formData = await request.formData();
-  const updates = Object.fromEntries(formData);
-
   // Pastikan activityId adalah sebuah angka
   const activityId = Number(params.activityId);
-  if (isNaN(activityId)) {
+  if (!activityId || isNaN(activityId)) {
     throw new Error("Invalid activity ID");
   }
 
-  await updateActivity(activityId, updates);
-  return redirect(`/activities/${activityId}/edit`);
+  const formData = await request.formData();
+
+  const newActivity = {
+    id: activityId,
+    title: String(formData.get("title")),
+    category: String(formData.get("category")),
+    createdAt: new Date(),
+  };
+
+  await updateActivity(activityId, newActivity);
+
+  return redirect(`/activities/${activityId}`);
 }
 
 // Fungsi Loader (tambahkan jika diperlukan)
@@ -78,6 +86,7 @@ export function EditActivityRoute() {
           <option value="study">Study</option>
           <option value="hobbies">Hobbies</option>
         </select>
+
         <Button type="submit">Update Activity</Button>
       </Form>
     </div>

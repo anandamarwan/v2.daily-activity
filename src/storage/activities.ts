@@ -6,11 +6,15 @@ import { type Activity } from "../data/activities";
 
 export async function getActivities(query?: string) {
   await fakeNetwork(`getActivities:${query}`);
+
   let activities = (await localforage.getItem("activities")) as Activity[];
+
   if (!activities) activities = [];
+
   if (query) {
     activities = matchSorter(activities, query, { keys: ["title"] });
   }
+
   return activities.sort(sortBy("last", "createdAt"));
 }
 
@@ -26,35 +30,45 @@ export async function createActivity(formData: FormData) {
 
   const activities = await getActivities();
   const newActivities = [...activities, newActivity];
+
   await set(newActivities);
+
   return newActivity;
 }
 
 export async function getActivity(id: number) {
   await fakeNetwork(`activity:${id}`);
+
   const activities = (await localforage.getItem("activities")) as Activity[];
   const activity = activities.find((activity) => activity.id === id);
+
   return activity ?? null;
 }
 
-export async function updateActivity(id: number, updates: Activity) {
+export async function updateActivity(id: number, newActivity: Activity) {
   await fakeNetwork(``);
+
   const activities = (await localforage.getItem("activities")) as Activity[];
   const activity = activities.find((activity) => activity.id === id);
   if (!activity) throw new Error("No activity found for");
-  Object.assign(activity, updates);
+
+  Object.assign(activity, newActivity);
+
   await set(activities);
+
   return activity;
 }
 
 export async function deleteActivity(id: number) {
   const activities = (await localforage.getItem("activities")) as Activity[];
   const index = activities.findIndex((activity) => activity.id === id);
+
   if (index > -1) {
     activities.splice(index, 1);
     await set(activities);
     return true;
   }
+
   return false;
 }
 
@@ -78,6 +92,6 @@ async function fakeNetwork(key: string) {
   // @ts-expect-error Later
   fakeCache[key] = true;
   return new Promise((res) => {
-    setTimeout(res, Math.random() * 800);
+    setTimeout(res, Math.random() * 100);
   });
 }
